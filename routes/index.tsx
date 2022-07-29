@@ -27,7 +27,7 @@ export const handler: Handlers<ICat> = {
       font: font(incoming.font),
       custom: !!incoming.name,
     };
-    console.log(cat);
+
     return ctx.render(cat);
   },
 };
