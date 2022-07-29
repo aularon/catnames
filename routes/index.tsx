@@ -2,12 +2,41 @@
 import { h } from "preact";
 import Cat from "../islands/Cat.tsx";
 
-import { PageProps } from "$fresh/server.ts";
+import { Handlers, PageProps } from "$fresh/server.ts";
+import { name } from "../lib/name.ts";
+import image from "../lib/image.ts";
+import font from "../lib/font.ts";
+import { ICat } from "../types.ts";
 
-export default function Home({ url: { searchParams } }: PageProps) {
-  const incoming = Object.fromEntries(
-    ["name", "image", "font"].map((bit) => [bit, searchParams.get(bit)]),
-  );
+export const handler: Handlers<ICat> = {
+  GET(req, ctx) {
+    const url = new URL(req.url);
 
-  return <Cat {...incoming} />;
+    const incoming = Object.fromEntries(
+      ["name", "image", "font"].map((
+        bit,
+      ) => [bit, url.searchParams.get(bit) || ""]),
+    );
+    const cat: ICat = {
+      name: name(incoming.name),
+      image: image(
+        typeof incoming.image === "number"
+          ? incoming.image
+          : parseInt(incoming.image || ""),
+      ),
+      font: font(incoming.font),
+      custom: !!incoming.name,
+    };
+    console.log(cat);
+    return ctx.render(cat);
+  },
+};
+
+export default function Home({ data }: PageProps<ICat>) {
+  // return (
+  //   <div>
+  //   </div>
+  // );
+
+  return <Cat {...data} />;
 }

@@ -1,6 +1,7 @@
 import { Handlers } from "$fresh/server.ts";
-import image, { imageSrc } from "../../lib/image.ts";
+import image from "../../lib/image.ts";
 import { name } from "../../lib/name.ts";
+import { imageSrc } from "../../lib/utils.ts";
 
 export const handler: Handlers = {
   GET() {

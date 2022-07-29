@@ -2,46 +2,30 @@
 /** @jsxFrag Fragment */
 
 import { Fragment, h } from "preact";
-import { useState } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 import { tw } from "@twind";
-import { name } from "../lib/name.ts";
-import image, { imageSrc } from "../lib/image.ts";
-import font, { reverseFontsMap } from "../lib/font.ts";
+import { imageSrc } from "../lib/utils.ts";
+import { reverseFontsMap } from "../lib/font.ts";
 
 import Icon, { ICON_NAME } from "../components/icons.tsx";
 import { Head } from "$fresh/runtime.ts";
+import { ICat } from "../types.ts";
 
 export default function Cat(
-  { name: customName, image: customImage, font: customFont }: {
-    name?: string;
-    image?: number | string;
-    font?: string;
-  },
+  { name, image, font, custom }: ICat,
 ) {
-  const [randomName, setRandomName] = useState(name(customName));
-  const [randomImage, setRandomImage] = useState(
-    image(
-      typeof customImage === "number"
-        ? customImage
-        : parseInt(customImage || ""),
-    ),
-  );
-  const [randomFont, setRandomFont] = useState(font(customFont));
   const url = `https://cats.aularon.com/?` + new URLSearchParams({
-    name: randomName,
-    image: randomImage + "",
-    font: reverseFontsMap[randomFont],
+    name: name,
+    image: image + "",
+    font: reverseFontsMap[font],
   }).toString();
-  function randomize() {
-    setRandomName(name());
-    setRandomImage(image());
-  }
+
   const enc = {
     url: encodeURIComponent(url),
-    text: encodeURIComponent("اسم قطّي هو: " + randomName),
+    text: encodeURIComponent("اسم قطّي هو: " + name),
   };
 
-  const imageUrl = imageSrc(randomImage, 2000);
+  const imageUrl = imageSrc(image, 2000);
 
   const links: Record<ICON_NAME, string> = {
     Link: url,
@@ -56,9 +40,9 @@ export default function Cat(
   return (
     <>
       <Head>
-        <title>{randomName} - اسم قطّك!</title>
-        {customName && <link rel="canonical" href={url} />}
-        <meta property="og:title" content={randomName} />
+        <title>{name} - اسم قطّك!</title>
+        {custom && <link rel="canonical" href={url} />}
+        <meta property="og:title" content={name} />
         <meta property="og:image" content={imageUrl} />
         <meta property="twitter:image" content={imageUrl} />
         <meta property="og:description" content="اعثر على قطّك" />
@@ -71,17 +55,16 @@ export default function Cat(
         style="text-align: center; direction: rtl"
       >
         <h1
-          onClick={randomize}
           style={`font-size: 3em; font-size: min(${
             (200 /
-              randomName.length).toFixed(2)
-          }vw, 5em); font-family: ${randomFont}`}
+              name.length).toFixed(2)
+          }vw, 5em); font-family: ${font}`}
         >
-          {randomName}
+          {name}
         </h1>
-        {randomImage && (
+        {image && (
           <img
-            src={imageSrc(randomImage)}
+            src={imageSrc(image)}
             style="max-height: 80vh; display: block; margin: 1em auto"
           />
         )}
