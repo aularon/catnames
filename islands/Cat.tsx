@@ -63,6 +63,8 @@ export default function Cat(
         <meta property="twitter:image" content={imageUrl} />
         <meta property="og:description" content="اعثر على قطّك" />
         <meta name="twitter:card" content="summary_large_image" />
+        <meta property="og:type" content="article" />
+        <meta property="og:locale" content="ar_EG" />
       </Head>
       <div
         class={tw`p-1 mx-auto max-w-screen-md`}
