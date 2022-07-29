@@ -65,12 +65,15 @@ export default function Cat(
         <meta name="twitter:card" content="summary_large_image" />
       </Head>
       <div
-        class={tw`p-4 mx-auto max-w-screen-md`}
+        class={tw`p-1 mx-auto max-w-screen-md`}
         style="text-align: center; direction: rtl"
       >
         <h1
           onClick={randomize}
-          style={`font-size: 3em; font-family: ${randomFont}`}
+          style={`font-size: 3em; font-size: min(${
+            (200 /
+              randomName.length).toFixed(2)
+          }vw, 5em); font-family: ${randomFont}`}
         >
           {randomName}
         </h1>
