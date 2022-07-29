@@ -57,7 +57,7 @@ export default function Cat(
     <>
       <Head>
         <title>{randomName} - اسم قطّك!</title>
-        <link rel="canonical" href={url} />
+        {customName && <link rel="canonical" href={url} />}
         <meta property="og:title" content={randomName} />
         <meta property="og:image" content={imageUrl} />
         <meta property="twitter:image" content={imageUrl} />
