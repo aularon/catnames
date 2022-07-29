@@ -5,7 +5,7 @@ import { Fragment, h } from "preact";
 import { useState } from "preact/hooks";
 import { tw } from "@twind";
 import { name } from "../lib/name.ts";
-import image from "../lib/image.ts";
+import image, { imageSrc } from "../lib/image.ts";
 import font, { reverseFontsMap } from "../lib/font.ts";
 
 import Icon, { ICON_NAME } from "../components/icons.tsx";
@@ -41,7 +41,7 @@ export default function Cat(
     text: encodeURIComponent("اسم قطّي هو: " + randomName),
   };
 
-  const imageUrl = "https://openclipart.org/image/2000px/" + randomImage;
+  const imageUrl = imageSrc(randomImage, 2000);
 
   const links: Record<ICON_NAME, string> = {
     Link: url,
@@ -81,7 +81,7 @@ export default function Cat(
         </h1>
         {randomImage && (
           <img
-            src={"https://openclipart.org/download/" + randomImage}
+            src={imageSrc(randomImage)}
             style="max-height: 80vh; display: block; margin: 1em auto"
           />
         )}
