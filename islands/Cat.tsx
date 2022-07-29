@@ -32,10 +32,7 @@ export default function Cat(
     setHasShareAPI(!!navigator.share);
   });
 
-  const links: Record<ICON_NAME, {
-    url?: string;
-    callback: Function;
-  }> = {
+  const links: ACTIONS_ROW = {
     ...(hasShareAPI
       ? {
         Share: {
@@ -62,7 +59,7 @@ export default function Cat(
         },
         WhatsApp: { url: `https://wa.me/?text=${enc.text}%20${enc.url}` },
       }),
-    GitHub: { url: "https://github.com/aularon/catnames" },
+    Refresh: { url: "/", samePage: true, title: "قطّ جديد!" },
   };
 
   return (
@@ -79,7 +76,7 @@ export default function Cat(
         <meta property="og:locale" content="ar_EG" />
       </Head>
       <div
-        class={tw`p-1 mx-auto max-w-screen-md`}
+        class={tw`p-1 mx-auto max-w-screen-lg`}
         style="text-align: center; direction: rtl"
       >
         <h1
@@ -96,26 +93,48 @@ export default function Cat(
             style="max-height: 80vh; display: block; margin: 1em auto"
           />
         )}
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-around",
-            marginTop: "1em",
+        <ActionsRow links={links} />
+        <hr style={{ margin: "1em" }} />
+        <ActionsRow
+          links={{
+            GitHub: {
+              url: "https://github.com/aularon/catnames",
+              title: "Source code",
+            },
           }}
-        >
-          {Object.entries(links).map(([iconName, { url, callback }]) => (
-            <a
-              href={url}
-              onClick={callback}
-              target="_blank"
-              style={{ maxWidth: "36px", cursor: "pointer" }}
-            >
-              <Icon name={iconName} />
-            </a>
-          ))}
-        </div>
+        />
       </div>
     </>
   );
 }
+
+type ACTIONS_ROW = Record<ICON_NAME, {
+  url?: string;
+  callback?: () => any;
+  samePage?: boolean;
+  title?: string;
+}>;
+const ActionsRow = ({ links }: { links: ACTIONS_ROW }) => (
+  <div
+    style={{
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-around",
+      marginTop: "1em",
+    }}
+  >
+    {Object.entries(links).map((
+      [iconName, { url, callback, samePage, title }],
+    ) => (
+      <a
+        href={url}
+        onClick={callback}
+        target={samePage ? undefined : "_blank"}
+        title={title}
+        style={{ maxWidth: "36px", cursor: "pointer" }}
+      >
+        <Icon name={iconName} />
+      </a>
+    ))}
+  </div>
+);
