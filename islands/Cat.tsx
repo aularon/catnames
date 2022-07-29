@@ -101,6 +101,10 @@ export default function Cat(
               url: "https://github.com/aularon/catnames",
               title: "Source code",
             },
+            CatImage: {
+              url: `https://openclipart.org/detail/${image}`,
+              title: "الصورة على OpenClipart.org",
+            },
           }}
         />
       </div>
