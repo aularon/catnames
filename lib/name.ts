@@ -5,7 +5,9 @@ import randomize from "./randomize.ts";
 const names = JSON.parse(await Deno.readTextFile("./data/names.json"));
 
 const options = await parse("./data");
-const availableNames = Object.values(options).flat();
+const availableNames = Object.values(options).concat(
+  names.map((name) => name.split(" ")),
+).flat();
 
 export function name(suggestedName = ""): string {
   if (isValidName(suggestedName)) return suggestedName;
