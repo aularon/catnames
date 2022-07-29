@@ -5,6 +5,7 @@ import { h } from "preact";
 const icons = {
   WhatsApp: (
     <svg
+      style="width: 100%"
       fill="#25D366"
       role="img"
       viewBox="0 0 24 24"
@@ -16,6 +17,7 @@ const icons = {
   ),
   GitHub: (
     <svg
+      style="width: 100%"
       fill="#181717"
       role="img"
       viewBox="0 0 24 24"
@@ -27,6 +29,7 @@ const icons = {
   ),
   Facebook: (
     <svg
+      style="width: 100%"
       fill="#1877F2"
       role="img"
       viewBox="0 0 24 24"
@@ -38,6 +41,7 @@ const icons = {
   ),
   Twitter: (
     <svg
+      style="width: 100%"
       fill="#1DA1F2"
       role="img"
       viewBox="0 0 24 24"
@@ -49,6 +53,7 @@ const icons = {
   ),
   Telegram: (
     <svg
+      style="width: 100%"
       fill="#26A5E4"
       role="img"
       viewBox="0 0 24 24"
@@ -60,6 +65,7 @@ const icons = {
   ),
   Link: (
     <svg
+      style="width: 100%"
       version="1.1"
       xmlns="http://www.w3.org/2000/svg"
       viewBox="0 0 457.03 457.03"
