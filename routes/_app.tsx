@@ -8,10 +8,6 @@ export default function App(props: AppProps) {
   return (
     <>
       <Head>
-        <title>اسم قطّك</title>
-        {
-          // بلا معنى
-        }
         <link rel="preconnect" href="https://fonts.googleapis.com" />
         <link
           rel="preconnect"
