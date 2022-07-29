@@ -20,21 +20,49 @@ export default function Cat(
     font: reverseFontsMap[font],
   }).toString();
 
+  const text = "اسم قطّي هو: " + name;
   const enc = {
     url: encodeURIComponent(url),
-    text: encodeURIComponent("اسم قطّي هو: " + name),
+    text: encodeURIComponent(text),
   };
 
   const imageUrl = imageSrc(image, 2000);
+  const [hasShareAPI, setHasShareAPI] = useState(false);
+  useEffect(function () {
+    setHasShareAPI(!!navigator.share);
+  });
 
-  const links: Record<ICON_NAME, string> = {
-    Link: url,
-    Facebook: `https://www.facebook.com/sharer.php?display=page&u=${enc.url}`,
-    Twitter:
-      `https://twitter.com/intent/tweet?url=${enc.url}&text=${enc.text}&via=aularon`,
-    Telegram: `https://t.me/share/url?url=${enc.url}&text=${enc.text}`,
-    WhatsApp: `https://wa.me/?text=${enc.text}%20${enc.url}`,
-    GitHub: "https://github.com/aularon/catnames",
+  const links: Record<ICON_NAME, {
+    url?: string;
+    callback: Function;
+  }> = {
+    ...(hasShareAPI
+      ? {
+        Share: {
+          callback() {
+            navigator.share({
+              title: name,
+              text,
+              url,
+            });
+          },
+        },
+      }
+      : {
+        Link: { url },
+        Facebook: {
+          url: `https://www.facebook.com/sharer.php?display=page&u=${enc.url}`,
+        },
+        Twitter: {
+          url:
+            `https://twitter.com/intent/tweet?url=${enc.url}&text=${enc.text}&via=aularon`,
+        },
+        Telegram: {
+          url: `https://t.me/share/url?url=${enc.url}&text=${enc.text}`,
+        },
+        WhatsApp: { url: `https://wa.me/?text=${enc.text}%20${enc.url}` },
+      }),
+    GitHub: { url: "https://github.com/aularon/catnames" },
   };
 
   return (
@@ -76,8 +104,13 @@ export default function Cat(
             marginTop: "1em",
           }}
         >
-          {Object.entries(links).map(([iconName, link]) => (
-            <a href={link} target="_blank" style={{ maxWidth: "36px" }}>
+          {Object.entries(links).map(([iconName, { url, callback }]) => (
+            <a
+              href={url}
+              onClick={callback}
+              target="_blank"
+              style={{ maxWidth: "36px", cursor: "pointer" }}
+            >
               <Icon name={iconName} />
             </a>
           ))}
